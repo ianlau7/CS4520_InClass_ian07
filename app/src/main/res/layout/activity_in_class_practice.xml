@@ -4,17 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".in_class_practice">
 
     <Button
-        android:id="@+id/practice"
+        android:id="@+id/button"
         android:layout_width="375dp"
         android:layout_height="54dp"
-        android:text="Practice"
+        android:layout_marginTop="25dp"
+        android:text="Log Cat"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:rippleColor="@color/purple_700" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="375dp"
+        android:layout_height="54dp"
+        android:layout_marginBottom="496dp"
+        android:text="Toast"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button"
+        app:layout_constraintVertical_bias="0.0"
         app:rippleColor="@color/purple_700" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

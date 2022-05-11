@@ -10,7 +10,7 @@
         android:id="@+id/practice"
         android:layout_width="375dp"
         android:layout_height="54dp"
-        android:text="Practice"
+        android:text="@string/practiceButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

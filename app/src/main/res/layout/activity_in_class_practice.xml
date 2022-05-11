@@ -7,11 +7,22 @@
     tools:context=".in_class_practice">
 
     <Button
+        android:id="@+id/button5"
+        android:layout_width="375dp"
+        android:layout_height="54dp"
+        android:text="@string/inClass01Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button2"
+        app:rippleColor="@color/purple_700" />
+
+    <Button
         android:id="@+id/button"
         android:layout_width="375dp"
         android:layout_height="54dp"
         android:layout_marginTop="25dp"
-        android:text="Log Cat"
+        android:text="@string/logCatButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,13 +33,12 @@
         android:id="@+id/button2"
         android:layout_width="375dp"
         android:layout_height="54dp"
-        android:layout_marginBottom="496dp"
-        android:text="Toast"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
+        android:text="@string/toastButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button"
-        app:layout_constraintVertical_bias="0.0"
         app:rippleColor="@color/purple_700" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

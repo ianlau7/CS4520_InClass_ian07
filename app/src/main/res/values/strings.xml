@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Practice</string>
+    <string name="BMIButton">Calculate BMI</string>
+    <string name="practiceButton">Practice</string>
+    <string name="logCatButton">Log Cat</string>
+    <string name="toastButton">Toast</string>
+    <string name="inClass01Button">In Class 01</string>
 </resources>

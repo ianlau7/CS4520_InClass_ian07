@@ -1,3 +1,6 @@
+// Ian Lau
+// Assignment 01
+
 package com.example.practice;
 
 import android.os.Bundle;
@@ -22,17 +25,12 @@ public class in_class_01 extends AppCompatActivity {
         setContentView(R.layout.activity_in_class_01);
         setTitle("BMI Calculator");
 
-        System.out.println("#####");
-        Log.i("demo", "#####");
-
         calculateBMI = findViewById(R.id.buttonCalculate);
         weight = findViewById(R.id.editTextWeight);
         feet = findViewById(R.id.editTextFeet);
         inches = findViewById(R.id.editTextInches);
         display1 = findViewById(R.id.displayText);
         display2 = findViewById(R.id.displayText2);
-
-        calculateBMI.setText("@strings/BMIButton");
 
         // calculate BMI
         calculateBMI.setOnClickListener(new View.OnClickListener() {

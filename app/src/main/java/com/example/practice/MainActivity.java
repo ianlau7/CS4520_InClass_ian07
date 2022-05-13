@@ -1,3 +1,6 @@
+// Ian Lau
+// Assignment 01
+
 package com.example.practice;
 
 import androidx.appcompat.app.AppCompatActivity;

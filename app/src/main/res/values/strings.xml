@@ -5,4 +5,6 @@
     <string name="logCatButton">Log Cat</string>
     <string name="toastButton">Toast</string>
     <string name="inClass01Button">In Class 01</string>
+    <string name="inClass02Button">In Class 02</string>
+    <string name="inClass02SubmitButton">Submit</string>
 </resources>

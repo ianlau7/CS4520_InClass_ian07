@@ -19,6 +19,7 @@ public class in_class_practice extends AppCompatActivity {
     Button button;
     Button button2;
     Button inClass01;
+    Button inClass02;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +31,13 @@ public class in_class_practice extends AppCompatActivity {
         button = findViewById(R.id.button);
         button2 = findViewById(R.id.button2);
         inClass01 = findViewById(R.id.button5);
+        inClass02 = findViewById(R.id.inClass02Button);
 
         // set texts
         button.setText("Log Cat");
         button2.setText("Toast");
         inClass01.setText("In Class 01");
+        inClass02.setText("In Class 02");
 
         // log cat button listener
         button.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +63,16 @@ public class in_class_practice extends AppCompatActivity {
                 Intent toInClass01 = new Intent(in_class_practice.this,
                         in_class_01.class);
                 startActivity(toInClass01);
+            }
+        });
+
+        // button to go to in class assignment 2
+        inClass02.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent toInClass02 = new Intent(in_class_practice.this,
+                        in_class_02.class);
+                startActivity(toInClass02);
             }
         });
     }

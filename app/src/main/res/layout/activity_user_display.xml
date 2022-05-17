@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".userDisplay">
+
+    <ImageView
+        android:id="@+id/avatarDisplayImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/select_avatar" />
+
+    <TextView
+        android:id="@+id/nameTitleDisplaytextView"
+        android:layout_width="58dp"
+        android:layout_height="23dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="80dp"
+        android:text="Name:"
+        android:textColor="@color/black"
+        android:textSize="17dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/avatarDisplayImageView" />
+
+    <TextView
+        android:id="@+id/nameResultDisplayTextView"
+        android:layout_width="278dp"
+        android:layout_height="23dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="80dp"
+        android:textColor="@color/black"
+        android:textSize="17dp"
+        app:layout_constraintStart_toEndOf="@+id/nameTitleDisplaytextView"
+        app:layout_constraintTop_toBottomOf="@+id/avatarDisplayImageView" />
+
+    <TextView
+        android:id="@+id/emailResultDisplaytextView"
+        android:layout_width="285dp"
+        android:layout_height="23dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/black"
+        android:textSize="17dp"
+        app:layout_constraintStart_toEndOf="@+id/emailTitleDisplayTextView"
+        app:layout_constraintTop_toBottomOf="@+id/nameResultDisplayTextView" />
+
+    <TextView
+        android:id="@+id/emailTitleDisplayTextView"
+        android:layout_width="58dp"
+        android:layout_height="23dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:text="Email:"
+        android:textColor="@color/black"
+        android:textSize="17dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nameTitleDisplaytextView" />
+
+    <TextView
+        android:id="@+id/platformDisplayTextView"
+        android:layout_width="335dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:text="I use ________________!"
+        android:textColor="@color/black"
+        android:textSize="17dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailTitleDisplayTextView" />
+
+    <TextView
+        android:id="@+id/moodDisplayTextView"
+        android:layout_width="334dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:text="I am Happy!"
+        android:textColor="@color/black"
+        android:textSize="17dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/platformDisplayTextView" />
+
+    <ImageView
+        android:id="@+id/emojiDisplayImageView"
+        android:layout_width="88dp"
+        android:layout_height="87dp"
+        android:layout_marginTop="280dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/avatarDisplayImageView"
+        app:srcCompat="@drawable/happy" />
+</androidx.constraintlayout.widget.ConstraintLayout>

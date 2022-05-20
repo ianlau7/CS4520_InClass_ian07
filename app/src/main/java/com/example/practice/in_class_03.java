@@ -1,0 +1,185 @@
+package com.example.practice;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Patterns;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class in_class_03 extends AppCompatActivity {
+
+    EditText name, email;
+    static ImageView avatarSelect;
+    static int avatarResId;
+    TextView iUse, currentMood;
+    RadioGroup radioGroup;
+    RadioButton android, ios;
+    SeekBar moodSeekBar;
+    ImageView emoji;
+    static Button submit;
+    String mood;
+    static boolean hasAvatar;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_in_class03);
+        setTitle("Edit Profile Activity");
+
+        // initialize ids
+        name = findViewById(R.id.editTextTextPersonNameF);
+        email = findViewById(R.id.editTextTextEmailF);
+        avatarSelect = findViewById(R.id.selectAvatarImageViewF);
+        iUse = findViewById(R.id.iUseTextViewF);
+        currentMood = findViewById(R.id.currentMoodTextViewF);
+        radioGroup = findViewById(R.id.radioGroupF);
+        android = findViewById(R.id.androidRadioButtonF);
+        ios = findViewById(R.id.iOSRadioButtonF);
+        moodSeekBar = findViewById(R.id.seekBarF);
+        emoji = findViewById(R.id.imageView2F);
+        submit = findViewById(R.id.profileSubmitButtonF);
+        hasAvatar = false;
+        mood = "Happy";
+
+        // seek bar changes
+
+        moodSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser && progress == 0) {
+
+                    emoji.setImageResource(R.drawable.angry);
+                    currentMood.setText("Your current mood: Angry");
+                    mood = "Angry";
+
+                } else if (fromUser && progress == 1) {
+
+                    emoji.setImageResource(R.drawable.sad);
+                    currentMood.setText("Your current mood: Sad");
+                    mood = "Sad";
+
+                } else if (fromUser && progress == 2) {
+
+                    emoji.setImageResource(R.drawable.happy);
+                    currentMood.setText("Your current mood: Happy");
+                    mood = "Happy";
+
+                } else if (fromUser && progress == 3) {
+
+                    emoji.setImageResource(R.drawable.awesome);
+                    currentMood.setText("Your current mood: Awesome");
+                    mood = "Awesome";
+
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+
+        // avatar select click
+        avatarSelect.setOnClickListener(new ImageView.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                submit.setVisibility(View.INVISIBLE);
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.avatarSelectFragmentContainer, new avatarSelectFragment())
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+        // submit button click
+
+        submit.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // if name EditText is empty
+                if (name.getText().length() == 0) {
+                    Toast.makeText(in_class_03.this, "Please enter your name",
+                            Toast.LENGTH_LONG).show();
+                }
+
+                // if email EditText is empty/wrong
+                else if (email.getText().length() == 0 ||
+                        !Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()) {
+                    Toast.makeText(in_class_03.this, "Please enter a valid email",
+                            Toast.LENGTH_LONG).show();
+                }
+
+                // if radio buttons are unchecked
+                else if (radioGroup.getCheckedRadioButtonId() == -1) {
+                    Toast.makeText(in_class_03.this, "Please select a platform " +
+                            "(Android or iOS)", Toast.LENGTH_LONG).show();
+                }
+
+                // if an avatar is not selected
+                else if (hasAvatar == false) {
+                    Toast.makeText(in_class_03.this, "Please select an avatar",
+                            Toast.LENGTH_LONG).show();
+                }
+
+                else {
+                    try {
+
+                        String n = name.getText().toString();
+                        String e = email.getText().toString();
+
+                        int checkedButtonId = radioGroup.getCheckedRadioButtonId();
+                        RadioButton checked = findViewById(checkedButtonId);
+                        String p = checked.getText().toString();
+
+                        String m = mood;
+
+                        Profile profile = new Profile(n, e, p, m, avatarResId);
+                        getSupportFragmentManager().beginTransaction()
+                                .add(R.id.displayFragmentContainer,
+                                        userDisplayFragment.newInstance(profile),
+                                        "display fragment")
+                                .addToBackStack(null)
+                                .commit();
+                        submit.setVisibility(View.INVISIBLE);
+
+                    } catch (IllegalArgumentException e) {
+                        Toast.makeText(in_class_03.this, "Something went wrong, " +
+                                        "please re-enter your inputs and try again.",
+                                Toast.LENGTH_LONG).show();
+                    }
+                }
+
+
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        int stacks = getSupportFragmentManager().getBackStackEntryCount();
+
+        if (stacks == 1) {
+            setTitle("Edit Profile Activity");
+            submit.setVisibility(View.VISIBLE);
+            getSupportFragmentManager().popBackStack();
+        } else if (stacks > 1) {
+            getSupportFragmentManager().popBackStack();
+        } else {
+            finish();
+        }
+
+    }
+}

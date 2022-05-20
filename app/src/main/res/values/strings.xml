@@ -7,4 +7,6 @@
     <string name="inClass01Button">In Class 01</string>
     <string name="inClass02Button">In Class 02</string>
     <string name="inClass02SubmitButton">Submit</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -14,6 +14,9 @@
         android:theme="@style/Theme.Practice"
         tools:targetApi="31">
         <activity
+            android:name=".in_class_04"
+            android:exported="false" />
+        <activity
             android:name=".in_class_03"
             android:exported="false" />
         <activity

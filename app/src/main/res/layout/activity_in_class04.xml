@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".in_class_04">
+
+    <TextView
+        android:id="@+id/selectComplexityTextView"
+        android:layout_width="197dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="32dp"
+        android:text="Select Complexity:"
+        android:textColor="@color/black"
+        android:textSize="23dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/minimumTextView"
+        android:layout_width="117dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="50dp"
+        android:text="Minimum:"
+        android:textColor="@color/black"
+        android:textSize="23dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectComplexitySeekBar" />
+
+    <TextView
+        android:id="@+id/minimumTextViewResult"
+        android:layout_width="117dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="100dp"
+        android:textColor="@color/black"
+        android:textSize="23dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/minimumTextView"
+        app:layout_constraintTop_toTopOf="@+id/minimumTextView" />
+
+    <TextView
+        android:id="@+id/maxTextViewResult"
+        android:layout_width="117dp"
+        android:layout_height="33dp"
+        android:textColor="@color/black"
+        android:textSize="23dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/minimumTextViewResult"
+        app:layout_constraintTop_toTopOf="@+id/maximumTextView" />
+
+    <TextView
+        android:id="@+id/avgTextViewResult"
+        android:layout_width="117dp"
+        android:layout_height="33dp"
+        android:textColor="@color/black"
+        android:textSize="23dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/maxTextViewResult"
+        app:layout_constraintTop_toTopOf="@+id/avgTextView" />
+
+    <TextView
+        android:id="@+id/maximumTextView"
+        android:layout_width="122dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="48dp"
+        android:text="Maximum:"
+        android:textColor="@color/black"
+        android:textSize="23dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/minimumTextView" />
+
+    <TextView
+        android:id="@+id/avgTextView"
+        android:layout_width="105dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="48dp"
+        android:text="Average:"
+        android:textColor="@color/black"
+        android:textSize="23dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/maximumTextView" />
+
+    <TextView
+        android:id="@+id/selectComplexityCountTextView"
+        android:layout_width="93dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="40dp"
+        android:text="8 times"
+        android:textColor="@color/black"
+        android:textSize="23dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/selectComplexityTextView" />
+
+    <SeekBar
+        android:id="@+id/selectComplexitySeekBar"
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:layout_width="354dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="100dp"
+        android:max="10"
+        android:progress="8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/generateNumberButton"
+        android:layout_width="198dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="325dp"
+        android:text="@string/inClass04GenerateButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectComplexitySeekBar" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="352dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/generateNumberButton" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

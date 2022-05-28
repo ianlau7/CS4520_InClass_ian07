@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.MemoryPolicy;
@@ -36,6 +37,7 @@ public class in_class_05 extends AppCompatActivity {
     Button go;
     ImageView next, prev, image;
     ProgressBar progressBar;
+    TextView loading;
 
     OkHttpClient client = new OkHttpClient();
     static String[] listOfKeywords;
@@ -55,44 +57,59 @@ public class in_class_05 extends AppCompatActivity {
         prev = findViewById(R.id.PreviousButtonImageView);
         image = findViewById(R.id.imageDisplayImageView);
         progressBar = findViewById(R.id.progressBarImage);
+        loading = findViewById(R.id.LoadingTextView);
 
         next.setVisibility(View.INVISIBLE);
         prev.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.INVISIBLE);
+        loading.setVisibility(View.INVISIBLE);
 
-        Request keywordRequest = new Request.Builder()
-                .url("http://dev.sakibnm.space/apis/images/keywords")
-                .build();
+        if (!checkConnection()) {
+            Toast.makeText(in_class_05.this, "No internet connection. Please connect to" +
+                            " a network and try again.",
+                    Toast.LENGTH_LONG).show();
+        } else {
+            // GET keyword API
+            Request keywordRequest = new Request.Builder()
+                    .url("http://dev.sakibnm.space/apis/images/keywords")
+                    .build();
 
-        client.newCall(keywordRequest).enqueue(new Callback() {
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    ResponseBody responseBody = response.body();
-                    String keywords = responseBody.string();
-                    in_class_05.listOfKeywords = keywords.split(",");
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                in_class_05.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(in_class_05.this, "no keywords",
-                                Toast.LENGTH_LONG).show();
+            client.newCall(keywordRequest).enqueue(new Callback() {
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                    if (response.isSuccessful()) {
+                        ResponseBody responseBody = response.body();
+                        String keywords = responseBody.string();
+                        in_class_05.listOfKeywords = keywords.split(",");
                     }
-                });
-            }
-        });
+                }
 
+                @Override
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                    in_class_05.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(in_class_05.this, "no keywords",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            });
+        }
+
+        // Go button listener
         go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                image.setImageResource(R.drawable.white_box);
+
+                // if EditText is empty
                 if (keywordSearch.getText().length() == 0) {
                     Toast.makeText(in_class_05.this, "Please enter a keyword",
                             Toast.LENGTH_LONG).show();
+
+                // if the text from the editText is not a keyword from the keyword API
                 } else if(!Arrays.asList(listOfKeywords).contains(keywordSearch.getText().toString())) {
 
                     Toast.makeText(in_class_05.this, "keyword invalid; please" +
@@ -101,91 +118,102 @@ public class in_class_05 extends AppCompatActivity {
 
                     next.setVisibility(View.INVISIBLE);
                     prev.setVisibility(View.INVISIBLE);
-                    image.setImageResource(R.drawable.white_box);
 
                 } else {
 
                     progressBar.setVisibility(View.VISIBLE);
+                    loading.setVisibility(View.VISIBLE);
 
-                    HttpUrl url = HttpUrl.parse("http://dev.sakibnm.space/apis/images/retrieve")
-                            .newBuilder()
-                            .addQueryParameter("keyword", keywordSearch.getText().toString())
-                            .build();
+                    if (!checkConnection()) {
+                        Toast.makeText(in_class_05.this, "No internet connection." +
+                                        " Please connect to a network and try again.",
+                                Toast.LENGTH_LONG).show();
+                    } else {
+                        // GET image API
+                        HttpUrl url = HttpUrl.parse("http://dev.sakibnm.space/apis/images/retrieve")
+                                .newBuilder()
+                                .addQueryParameter("keyword", keywordSearch.getText().toString())
+                                .build();
 
-                    Log.d("demo", "" + url);
+                        Request request = new Request.Builder()
+                                .url(url)
+                                .build();
 
-                    Request request = new Request.Builder()
-                            .url(url)
-                            .build();
+                        client.newCall(request).enqueue(new Callback() {
+                            @Override
+                            public void onResponse(@NonNull Call call, @NonNull Response response)
+                                    throws IOException {
+                                if (response.isSuccessful()) {
+                                    ResponseBody responseBody = response.body();
+                                    String imageurls = responseBody.string();
 
-                    client.newCall(request).enqueue(new Callback() {
-                        @Override
-                        public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                            if (response.isSuccessful()) {
-                                ResponseBody responseBody = response.body();
-                                String imageurls = responseBody.string();
-
-                                if (imageurls.isEmpty()) {
-                                    in_class_05.this.runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            Toast.makeText(in_class_05.this, "No Images Found.",
-                                                    Toast.LENGTH_LONG).show();
-                                        }
-                                    });
-
-                                } else {
-                                    in_class_05.imageURLs = imageurls.split("\\R");
-
-                                    if (imageURLs.length > 1) {
+                                    // if the API returns no URLs
+                                    if (imageurls.isEmpty()) {
                                         in_class_05.this.runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
-                                                next.setVisibility(View.VISIBLE);
-                                                prev.setVisibility(View.VISIBLE);
+                                                next.setVisibility(View.INVISIBLE);
+                                                prev.setVisibility(View.INVISIBLE);
+                                                progressBar.setVisibility(View.INVISIBLE);
+                                                loading.setVisibility(View.INVISIBLE);
+
+                                                Toast.makeText(in_class_05.this,
+                                                        "No Images Found.",
+                                                        Toast.LENGTH_LONG).show();
                                             }
                                         });
 
-                                    }
+                                    } else {
 
-                                    Log.d("demo", imageURLs[3]);
+                                        in_class_05.imageURLs = imageurls.split("\\R");
 
-                                    in_class_05.this.runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            Picasso.get().load(imageURLs[0])
-                                                    .networkPolicy(NetworkPolicy.NO_CACHE)
-                                                    .memoryPolicy(MemoryPolicy.NO_CACHE)
-                                                    .into(image);
+                                        // if there is more than 1 URL
+                                        if (imageURLs.length > 1) {
+                                            in_class_05.this.runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    next.setVisibility(View.VISIBLE);
+                                                    prev.setVisibility(View.VISIBLE);
+                                                }
+                                            });
 
-                                            progressBar.setVisibility(View.INVISIBLE);
                                         }
-                                    });
 
-                                    imageIndex = 0;
+                                        in_class_05.this.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Picasso.get().load(imageURLs[0])
+                                                        .networkPolicy(NetworkPolicy.NO_CACHE)
+                                                        .memoryPolicy(MemoryPolicy.NO_CACHE)
+                                                        .into(image);
+
+                                                progressBar.setVisibility(View.INVISIBLE);
+                                                loading.setVisibility(View.INVISIBLE);
+                                            }
+                                        });
+
+                                        imageIndex = 0;
+                                    }
                                 }
                             }
-                        }
 
-                        @Override
-                        public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                            in_class_05.this.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(in_class_05.this, "keyword invalid; please" +
-                                                    " try again.",
-                                            Toast.LENGTH_LONG).show();
+                            @Override
+                            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                                in_class_05.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(in_class_05.this, "keyword invalid;" +
+                                                        " please try again.",
+                                                Toast.LENGTH_LONG).show();
 
-                                    next.setVisibility(View.INVISIBLE);
-                                    prev.setVisibility(View.INVISIBLE);
-                                    image.setImageResource(R.drawable.white_box);
-                                }
-                            });
-                        }
-                    });
-
-
-
+                                        next.setVisibility(View.INVISIBLE);
+                                        prev.setVisibility(View.INVISIBLE);
+                                        image.setImageResource(R.drawable.white_box);
+                                    }
+                                });
+                            }
+                        });
+                    }
                 }
             }
         });
@@ -194,6 +222,8 @@ public class in_class_05 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
+                loading.setText("Loading next...");
+                loading.setVisibility(View.VISIBLE);
 
                 if (imageIndex == imageURLs.length - 1) {
                     Picasso.get().load(imageURLs[0])
@@ -210,6 +240,7 @@ public class in_class_05 extends AppCompatActivity {
                 }
 
                 progressBar.setVisibility(View.INVISIBLE);
+                loading.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -218,6 +249,8 @@ public class in_class_05 extends AppCompatActivity {
             public void onClick(View v) {
 
                 progressBar.setVisibility(View.VISIBLE);
+                loading.setText("Loading previous...");
+                loading.setVisibility(View.VISIBLE);
 
                 if (imageIndex == 0) {
                     Picasso.get().load(imageURLs[imageURLs.length - 1])
@@ -234,7 +267,22 @@ public class in_class_05 extends AppCompatActivity {
                 }
 
                 progressBar.setVisibility(View.INVISIBLE);
+                loading.setVisibility(View.INVISIBLE);
             }
         });
+    }
+
+    // check for an internet connection
+    public boolean checkConnection() {
+        ConnectivityManager m = (ConnectivityManager) getApplicationContext()
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = m.getActiveNetworkInfo();
+
+        if (activeNetwork != null || activeNetwork.isConnected()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

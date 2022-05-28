@@ -77,4 +77,16 @@
         app:layout_constraintStart_toStartOf="@+id/imageDisplayImageView"
         app:layout_constraintTop_toTopOf="@+id/imageDisplayImageView" />
 
+    <TextView
+        android:id="@+id/LoadingTextView"
+        android:layout_width="206dp"
+        android:layout_height="43dp"
+        android:text="Loading..."
+        android:textColor="@color/black"
+        android:textSize="25dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBarImage" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

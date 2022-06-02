@@ -3,12 +3,15 @@ package com.example.practice;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import java.io.IOException;
 
@@ -145,8 +148,20 @@ public class in_class_06 extends AppCompatActivity {
                         @Override
                         public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
 
+                            if (response.isSuccessful()) {
+                                String string = response.body().string();
+                                Gson gsonData = new Gson();
+                                Articles articles = gsonData.fromJson(response.body().charStream(), Articles.class);
 
-
+                                in_class_06.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Intent intent = new Intent(in_class_06.this, newsDisplay.class);
+                                        intent.putParcelableArrayListExtra("articles", articles.getArticles());
+                                        startActivity(intent);
+                                    }
+                                });
+                            }
                         }
 
                         @Override
@@ -162,6 +177,7 @@ public class in_class_06 extends AppCompatActivity {
                         }
                     });
                 }
+
             }
         });
     }

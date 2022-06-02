@@ -1,16 +1,47 @@
 package com.example.practice;
 
-public class Article {
+import android.os.Parcel;
+import android.os.Parcelable;
 
-    protected String title, author, dateAndTimePublished, description, imageURL;
+public class Article implements Parcelable {
 
-    public Article(String title, String author, String dateAndTimePublished, String desc, String image) {
-        this.title = title;
+    Source source;
+    String url, content;
+    protected String title, author, publishedAt, description, urlToImage;
+
+    public Article (Source source, String author, String title, String description,  String url,
+                   String urlToImage, String publishedAt, String content) {
+        this.source = source;
         this.author = author;
-        this.dateAndTimePublished = dateAndTimePublished;
-        this.description = desc;
-        this.imageURL = image;
+        this.title = title;
+        this.description = description;
+        this.url = url;
+        this.urlToImage = urlToImage;
+        this.publishedAt = publishedAt;
+        this.content = content;
+
+
     }
+
+    protected Article(Parcel in) {
+        title = in.readString();
+        author = in.readString();
+        publishedAt = in.readString();
+        description = in.readString();
+        urlToImage = in.readString();
+    }
+
+    public static final Creator<Article> CREATOR = new Creator<Article>() {
+        @Override
+        public Article createFromParcel(Parcel in) {
+            return new Article(in);
+        }
+
+        @Override
+        public Article[] newArray(int size) {
+            return new Article[size];
+        }
+    };
 
     public String getTitle() {
         return this.title;
@@ -20,15 +51,29 @@ public class Article {
         return this.author;
     }
 
-    public String getDateAndTimePublished() {
-        return this.dateAndTimePublished;
+    public String getPublishedAt() {
+        return this.publishedAt;
     }
 
     public String getDescription() {
         return this.description;
     }
 
-    public String getImageURL() {
-        return this.imageURL;
+    public String getUrlToImage() {
+        return this.urlToImage;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeString(author);
+        dest.writeString(publishedAt);
+        dest.writeString(description);
+        dest.writeString(urlToImage);
     }
 }

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -88,19 +89,7 @@ public class in_class_06 extends AppCompatActivity {
                         RadioButton checked = findViewById(checkedButtonId);
                         String p = checked.getText().toString();
 
-                        String countryId = null;
-
-                        if (p == "United States") {
-                            countryId = "us";
-                        } else if (p == "Hong Kong") {
-                            countryId = "hk";
-                        } else if (p == "Great Britain") {
-                            countryId = "gb";
-                        } else if (p == "Canada") {
-                            countryId = "ca";
-                        } else if (p == "Singapore") {
-                            countryId = "sg";
-                        }
+                        String countryId = getCountryCode(p);
 
                         url = HttpUrl.parse("https://newsapi.org/v2/top-headlines")
                                 .newBuilder()
@@ -113,19 +102,7 @@ public class in_class_06 extends AppCompatActivity {
                         RadioButton checked = findViewById(checkedButtonId);
                         String p = checked.getText().toString();
 
-                        String countryId = null;
-
-                        if (p == "United States") {
-                            countryId = "us";
-                        } else if (p == "Hong Kong") {
-                            countryId = "hk";
-                        } else if (p == "Great Britain") {
-                            countryId = "gb";
-                        } else if (p == "Canada") {
-                            countryId = "ca";
-                        } else if (p == "Singapore") {
-                            countryId = "sg";
-                        }
+                        String countryId = getCountryCode(p);
 
                         int checkedButtonId1 = categories.getCheckedRadioButtonId();
                         RadioButton checked1 = findViewById(checkedButtonId1);
@@ -137,6 +114,7 @@ public class in_class_06 extends AppCompatActivity {
                                 .addQueryParameter("category", p1)
                                 .addQueryParameter("apiKey", "36b9a3ed1b704c71b38075642119529e")
                                 .build();
+
                     }
 
                     Request newsRequest = new Request.Builder()
@@ -149,9 +127,9 @@ public class in_class_06 extends AppCompatActivity {
                         public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
 
                             if (response.isSuccessful()) {
-                                String string = response.body().string();
                                 Gson gsonData = new Gson();
                                 Articles articles = gsonData.fromJson(response.body().charStream(), Articles.class);
+                                Log.d("demo", articles.toString());
 
                                 in_class_06.this.runOnUiThread(new Runnable() {
                                     @Override
@@ -180,5 +158,21 @@ public class in_class_06 extends AppCompatActivity {
 
             }
         });
+    }
+
+    String getCountryCode(String country) {
+        if (country.equals("United States")) {
+            return "us";
+        } else if (country.equals("Hong Kong")) {
+            return "hk";
+        } else if (country.equals("Great Britain")) {
+            return "gb";
+        } else if (country.equals("Canada")) {
+            return "ca";
+        } else if (country.equals("Singapore")) {
+            return "sg";
+        } else {
+            return "";
+        }
     }
 }

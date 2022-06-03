@@ -5,9 +5,14 @@ import android.os.Parcelable;
 
 public class Article implements Parcelable {
 
-    Source source;
-    String url, content;
-    protected String title, author, publishedAt, description, urlToImage;
+    protected Source source;
+    protected String  author;
+    protected String  title;
+    protected String  description;
+    protected String  url;
+    protected String  urlToImage;
+    protected String  publishedAt;
+    protected String  content;
 
     public Article (Source source, String author, String title, String description,  String url,
                    String urlToImage, String publishedAt, String content) {
@@ -20,7 +25,40 @@ public class Article implements Parcelable {
         this.publishedAt = publishedAt;
         this.content = content;
 
+    }
 
+    public Article() {}
+
+    public void setSource(Source source) {
+        this.source = source;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void setUrlToImage(String urlToImage) {
+        this.urlToImage = urlToImage;
+    }
+
+    public void setPublishedAt(String publishedAt) {
+        this.publishedAt = publishedAt;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     protected Article(Parcel in) {

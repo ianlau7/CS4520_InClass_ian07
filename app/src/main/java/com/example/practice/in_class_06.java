@@ -3,7 +3,10 @@ package com.example.practice;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -68,6 +71,10 @@ public class in_class_06 extends AppCompatActivity {
                     Toast.makeText(in_class_06.this,
                             "Please select a country and/or a category.",
                             Toast.LENGTH_LONG).show();
+                } else if (!checkConnection()) {
+                    Toast.makeText(in_class_06.this, "No internet connection. Please connect to" +
+                                    " a network and try again.",
+                            Toast.LENGTH_LONG).show();
                 } else {
 
                     HttpUrl url;
@@ -114,6 +121,8 @@ public class in_class_06 extends AppCompatActivity {
                                 .addQueryParameter("category", p1)
                                 .addQueryParameter("apiKey", "36b9a3ed1b704c71b38075642119529e")
                                 .build();
+
+                        Log.d("demo", url.toString());
 
                     }
 
@@ -173,6 +182,20 @@ public class in_class_06 extends AppCompatActivity {
             return "sg";
         } else {
             return "";
+        }
+    }
+
+    // check for an internet connection
+    public boolean checkConnection() {
+        ConnectivityManager m = (ConnectivityManager) getApplicationContext()
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = m.getActiveNetworkInfo();
+
+        if (activeNetwork != null || activeNetwork.isConnected()) {
+            return true;
+        } else {
+            return false;
         }
     }
 }

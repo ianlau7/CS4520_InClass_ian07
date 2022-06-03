@@ -27,9 +27,9 @@ public class newsDisplay extends AppCompatActivity {
 
             recyclerView = findViewById(R.id.recyclerView);
             recyclerViewLayoutManager = new LinearLayoutManager(this);
+            recyclerView.setLayoutManager(recyclerViewLayoutManager);
             newsAdapter = new NewsAdapter(articles);
             recyclerView.setAdapter(newsAdapter);
-
         }
     }
 }

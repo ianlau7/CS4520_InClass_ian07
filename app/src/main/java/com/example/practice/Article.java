@@ -82,23 +82,35 @@ public class Article implements Parcelable {
     };
 
     public String getTitle() {
-        return this.title;
+        return title;
     }
 
     public String getAuthor() {
-        return this.author;
+        return author;
     }
 
     public String getPublishedAt() {
-        return this.publishedAt;
+        return publishedAt;
     }
 
     public String getDescription() {
-        return this.description;
+        return description;
     }
 
     public String getUrlToImage() {
-        return this.urlToImage;
+        return urlToImage;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public Source getSource() {
+        return source;
     }
 
     @Override
@@ -113,5 +125,19 @@ public class Article implements Parcelable {
         dest.writeString(publishedAt);
         dest.writeString(description);
         dest.writeString(urlToImage);
+    }
+
+    @Override
+    public String toString() {
+        return "Article{" +
+                "source=" + source +
+                ", author='" + author + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", url='" + url + '\'' +
+                ", urlToImage='" + urlToImage + '\'' +
+                ", publishedAt='" + publishedAt + '\'' +
+                ", content='" + content + '\'' +
+                '}';
     }
 }

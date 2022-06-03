@@ -27,4 +27,12 @@ public class Source {
     public String getName() {
         return name;
     }
+
+    @Override
+    public String toString() {
+        return "Source{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

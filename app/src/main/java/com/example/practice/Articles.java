@@ -31,7 +31,20 @@ public class Articles {
         this.status = status;
     }
 
+    public int getTotalResults() {
+        return totalResults;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    @Override
     public String toString() {
-        return "Articles: " + articles;
+        return "Articles{" +
+                "status='" + status + '\'' +
+                ", totalResults=" + totalResults +
+                ", articles=" + articles +
+                '}';
     }
 }

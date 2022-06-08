@@ -1,5 +1,8 @@
 package com.example.practice;
 
+import androidx.annotation.Keep;
+
+@Keep
 public class Source {
 
     private String id;

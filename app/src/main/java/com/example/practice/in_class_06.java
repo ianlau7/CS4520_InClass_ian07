@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -137,7 +138,8 @@ public class in_class_06 extends AppCompatActivity {
 
                             if (response.isSuccessful()) {
                                 Gson gsonData = new Gson();
-                                Articles articles = gsonData.fromJson(response.body().charStream(), Articles.class);
+                                Articles articles = gsonData.fromJson(Objects.requireNonNull(response.body()).
+                                        charStream(), Articles.class);
                                 Log.d("demo", articles.toString());
 
                                 in_class_06.this.runOnUiThread(new Runnable() {

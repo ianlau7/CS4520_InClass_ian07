@@ -3,6 +3,9 @@ package com.example.practice;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.Keep;
+
+@Keep
 public class Article implements Parcelable {
 
     protected Source source;

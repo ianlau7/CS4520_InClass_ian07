@@ -1,7 +1,10 @@
 package com.example.practice;
 
+import androidx.annotation.Keep;
+
 import java.util.ArrayList;
 
+@Keep
 public class Articles {
     String status;
     int totalResults;

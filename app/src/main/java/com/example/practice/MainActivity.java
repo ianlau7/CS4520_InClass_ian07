@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     Button inClass04;
     Button inClass05;
     Button inClass06;
+    Button inClass07;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         inClass04 = findViewById(R.id.inClass04Button);
         inClass05 = findViewById(R.id.inClass05Button);
         inClass06 = findViewById(R.id.inClass06Button);
+        inClass07 = findViewById(R.id.inClass07Button);
 
         // set texts
         inClass01.setText("In Class 01");
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         inClass04.setText("In Class 04");
         inClass05.setText("In Class 05");
         inClass06.setText("In Class 06");
+        inClass07.setText("In Class 07");
 
 // button to go to in class assignment 1
         inClass01.setOnClickListener(new View.OnClickListener() {
@@ -100,6 +103,16 @@ public class MainActivity extends AppCompatActivity {
                 Intent toInClass06 = new Intent(MainActivity.this,
                         in_class_06.class);
                 startActivity(toInClass06);
+            }
+        });
+
+        // button to go to in class assignment 7
+        inClass07.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent toInClass07 = new Intent(MainActivity.this,
+                        in_class_07.class);
+                startActivity(toInClass07);
             }
         });
 

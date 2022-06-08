@@ -1,8 +1,11 @@
 package com.example.practice;
 
+import androidx.annotation.Keep;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
+@Keep
 public class Profile implements Parcelable {
 
     String name, email, platform, mood;

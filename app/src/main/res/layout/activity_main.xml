@@ -34,9 +34,9 @@
         android:layout_width="375dp"
         android:layout_height="54dp"
         android:text="In Class 03"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/inClass02Button"
         app:layout_constraintHorizontal_bias="0.444"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/inClass02Button"
         app:layout_constraintTop_toBottomOf="@+id/inClass02Button"
         app:rippleColor="@color/purple_700" />
 
@@ -58,6 +58,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inClass05Button"
+        app:rippleColor="@color/purple_700" />
+
+    <Button
+        android:id="@+id/inClass07Button"
+        android:layout_width="375dp"
+        android:layout_height="54dp"
+        android:text="In Class 07"
+        app:layout_constraintEnd_toEndOf="@+id/inClass06Button"
+        app:layout_constraintHorizontal_bias="0.444"
+        app:layout_constraintStart_toStartOf="@+id/inClass06Button"
+        app:layout_constraintTop_toBottomOf="@+id/inClass06Button"
         app:rippleColor="@color/purple_700" />
 
     <Button

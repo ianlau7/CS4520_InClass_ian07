@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout6"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChatRegisterFragment" >
+
+    <EditText
+        android:id="@+id/chatRegisterEditTextTextPersonName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:ems="10"
+        android:hint="Name"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/chatRegisterEditTextTextEmailAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="@+id/chatRegisterEditTextTextPersonName"
+        app:layout_constraintStart_toStartOf="@+id/chatRegisterEditTextTextPersonName"
+        app:layout_constraintTop_toBottomOf="@+id/chatRegisterEditTextTextPersonName" />
+
+    <EditText
+        android:id="@+id/chatRegisterEditTextTextPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="@+id/chatRegisterEditTextTextEmailAddress"
+        app:layout_constraintStart_toStartOf="@+id/chatRegisterEditTextTextEmailAddress"
+        app:layout_constraintTop_toBottomOf="@+id/chatRegisterEditTextTextEmailAddress" />
+
+    <EditText
+        android:id="@+id/chatRegisterReEnterEditTextTextPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Re-enter Password"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="@+id/chatRegisterEditTextTextPassword"
+        app:layout_constraintStart_toStartOf="@+id/chatRegisterEditTextTextPassword"
+        app:layout_constraintTop_toBottomOf="@+id/chatRegisterEditTextTextPassword" />
+
+    <Button
+        android:id="@+id/chatRegisterButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Register"
+        app:layout_constraintEnd_toEndOf="@+id/chatRegisterReEnterEditTextTextPassword"
+        app:layout_constraintStart_toStartOf="@+id/chatRegisterReEnterEditTextTextPassword"
+        app:layout_constraintTop_toBottomOf="@+id/chatRegisterReEnterEditTextTextPassword" />
+</androidx.constraintlayout.widget.ConstraintLayout>

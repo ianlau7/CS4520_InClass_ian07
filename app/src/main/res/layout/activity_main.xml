@@ -72,6 +72,17 @@
         app:rippleColor="@color/purple_700" />
 
     <Button
+        android:id="@+id/inClass08Button"
+        android:layout_width="375dp"
+        android:layout_height="54dp"
+        android:text="In Class 08"
+        app:layout_constraintEnd_toEndOf="@+id/inClass07Button"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/inClass07Button"
+        app:layout_constraintTop_toBottomOf="@+id/inClass07Button"
+        app:rippleColor="@color/purple_700" />
+
+    <Button
         android:id="@+id/inClass04Button"
         android:layout_width="375dp"
         android:layout_height="54dp"

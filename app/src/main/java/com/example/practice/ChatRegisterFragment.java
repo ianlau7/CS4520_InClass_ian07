@@ -19,6 +19,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,10 +31,11 @@ import com.google.firebase.auth.UserProfileChangeRequest;
  */
 public class ChatRegisterFragment extends Fragment implements View.OnClickListener {
 
-    private EditText name, email, password, repeatPassword;
+    private EditText name, email, password, repeatPassword, firstName, lastName;
     private Button register;
-    private String userName, userEmail, userPassword, userRepeatedPassword;
+    private String userName, userEmail, userPassword, userRepeatedPassword, userFirstName, userLastName;
     private IregisterFragmentAction mListener;
+    private FirebaseFirestore db;
 
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
@@ -50,7 +55,7 @@ public class ChatRegisterFragment extends Fragment implements View.OnClickListen
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle("Register");
-
+        db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
     }
 
@@ -74,6 +79,8 @@ public class ChatRegisterFragment extends Fragment implements View.OnClickListen
         email = view.findViewById(R.id.chatRegisterEditTextTextEmailAddress);
         password = view.findViewById(R.id.chatRegisterEditTextTextPassword);
         repeatPassword = view.findViewById(R.id.chatRegisterReEnterEditTextTextPassword);
+        firstName = view.findViewById(R.id.editTextFirstName);
+        lastName = view.findViewById(R.id.editTextLastName);
         register = view.findViewById(R.id.chatRegisterButton);
         register.setOnClickListener(this);
 
@@ -86,6 +93,8 @@ public class ChatRegisterFragment extends Fragment implements View.OnClickListen
         this.userEmail = String.valueOf(email.getText()).trim();
         this.userPassword = String.valueOf(password.getText()).trim();
         this.userRepeatedPassword = String.valueOf(repeatPassword.getText()).trim();
+        this.userFirstName = String.valueOf(firstName.getText()).trim();
+        this.userLastName = String.valueOf(lastName.getText()).trim();
 
         if(v.getId()== R.id.chatRegisterButton){
             if(name.getText().length() == 0){
@@ -111,6 +120,13 @@ public class ChatRegisterFragment extends Fragment implements View.OnClickListen
                                 if(task.isSuccessful()){
                                     mUser = task.getResult().getUser();
 
+                                    Map<String, Object> newUser = new HashMap<>();
+                                    newUser.put("email", userEmail);
+                                    newUser.put("username", userName);
+                                    newUser.put("firstName", userFirstName);
+                                    newUser.put("lastName", userLastName);
+                                    db.collection("users").document(userName).set(newUser);
+
 //                                    Adding name to the FirebaseUser...
                                     UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
                                             .setDisplayName(userName)
@@ -125,7 +141,6 @@ public class ChatRegisterFragment extends Fragment implements View.OnClickListen
                                                     }
                                                 }
                                             });
-
                                 }
                             }
                         });

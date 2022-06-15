@@ -3,6 +3,7 @@ package com.example.practice;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
@@ -29,6 +30,8 @@ import java.util.Map;
  * Use the {@link ChatRegisterFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+
+@Keep
 public class ChatRegisterFragment extends Fragment implements View.OnClickListener {
 
     private EditText name, email, password, repeatPassword, firstName, lastName;

@@ -1,7 +1,10 @@
 package com.example.practice;
 
+import androidx.annotation.Keep;
+
 import java.io.Serializable;
 
+@Keep
 public class Message implements Serializable {
     private String message;
     private String sender;

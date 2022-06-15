@@ -1,7 +1,10 @@
 package com.example.practice;
 
+import androidx.annotation.Keep;
+
 import java.io.Serializable;
 
+@Keep
 public class Friend implements Serializable {
     private String username;
     private String email;

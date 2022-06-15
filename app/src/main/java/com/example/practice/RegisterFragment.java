@@ -3,6 +3,7 @@ package com.example.practice;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
@@ -33,6 +34,7 @@ import okhttp3.Response;
  * Use the {@link RegisterFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+@Keep
 public class RegisterFragment extends Fragment {
 
     EditText name, email, password;

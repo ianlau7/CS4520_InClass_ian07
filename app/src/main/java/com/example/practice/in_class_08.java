@@ -1,5 +1,6 @@
 package com.example.practice;
 
+import androidx.annotation.Keep;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+@Keep
 public class in_class_08 extends AppCompatActivity
         implements ChatLoginFragment.IloginFragmentAction,
         FriendsAdapter.IfriendsListRecyclerAction,

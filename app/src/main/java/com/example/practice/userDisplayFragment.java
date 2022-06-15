@@ -2,6 +2,7 @@ package com.example.practice;
 
 import android.os.Bundle;
 
+import androidx.annotation.Keep;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.widget.TextView;
  * Use the {@link userDisplayFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+@Keep
 public class userDisplayFragment extends Fragment {
 
     ImageView avatar, emoji;

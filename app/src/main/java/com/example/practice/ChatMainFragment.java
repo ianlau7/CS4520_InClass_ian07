@@ -2,6 +2,7 @@ package com.example.practice;
 
 import android.os.Bundle;
 
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -32,6 +34,7 @@ import java.util.ArrayList;
  * Use the {@link ChatMainFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+@Keep
 public class ChatMainFragment extends Fragment {
 
     private static final String ARG_FRIENDS = "friendsarray";
@@ -44,6 +47,7 @@ public class ChatMainFragment extends Fragment {
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
     private String username;
+    private Button editProfile;
 
     public ChatMainFragment() {
         // Required empty public constructor
@@ -99,8 +103,18 @@ public class ChatMainFragment extends Fragment {
         recyclerView.setLayoutManager(recyclerViewLayoutManager);
         recyclerView.setAdapter(friendsAdapter);
 
+        editProfile = rootView.findViewById(R.id.mainChatEditProfileButton);
 
+        editProfile.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.containerMain, new ChatEditProfileFragment())
+                        .addToBackStack("edit profile")
+                        .commit();
+            }
+        });
 
 //        Create a listener for Firebase data change...
         db.collection("users")

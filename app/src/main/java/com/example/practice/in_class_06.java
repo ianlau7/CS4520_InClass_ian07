@@ -1,5 +1,6 @@
 package com.example.practice;
 
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -27,6 +28,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+@Keep
 public class in_class_06 extends AppCompatActivity {
 
     OkHttpClient client = new OkHttpClient();

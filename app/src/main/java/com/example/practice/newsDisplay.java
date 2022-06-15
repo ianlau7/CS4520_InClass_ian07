@@ -1,5 +1,6 @@
 package com.example.practice;
 
+import androidx.annotation.Keep;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 
+@Keep
 public class newsDisplay extends AppCompatActivity {
 
     private RecyclerView recyclerView;

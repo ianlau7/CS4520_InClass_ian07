@@ -3,6 +3,7 @@ package com.example.practice;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
@@ -27,6 +28,7 @@ import com.google.firebase.auth.FirebaseUser;
  * Use the {@link ChatLoginFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+@Keep
 public class ChatLoginFragment extends Fragment implements View.OnClickListener {
 
     private EditText email, password;

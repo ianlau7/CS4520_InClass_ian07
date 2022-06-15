@@ -2,6 +2,7 @@ package com.example.practice;
 
 import android.os.Bundle;
 
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
@@ -31,6 +32,7 @@ import okhttp3.Response;
  * Use the {@link LoginFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+@Keep
 public class LoginFragment extends Fragment {
 
     OkHttpClient client = new OkHttpClient();

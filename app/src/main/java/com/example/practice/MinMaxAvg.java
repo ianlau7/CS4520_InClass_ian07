@@ -3,12 +3,15 @@ package com.example.practice;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.Keep;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
 // Parcelable object class that calculates and holds the minimum value, the maximum value, and the average
 // value of a given array list of doubles
 
+@Keep
 public class MinMaxAvg implements Parcelable {
     private double min;
     private double max;

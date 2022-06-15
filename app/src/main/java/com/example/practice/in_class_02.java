@@ -1,5 +1,6 @@
 package com.example.practice;
 
+import androidx.annotation.Keep;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+@Keep
 public class in_class_02 extends AppCompatActivity {
 
     EditText name, email;

@@ -1,5 +1,6 @@
 package com.example.practice;
 
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+@Keep
 public class in_class_04 extends AppCompatActivity {
 
     private Button generateNumbers;

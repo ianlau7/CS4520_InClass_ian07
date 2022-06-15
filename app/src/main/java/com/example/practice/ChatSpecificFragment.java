@@ -3,6 +3,7 @@ package com.example.practice;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -36,6 +37,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+@Keep
 public class ChatSpecificFragment extends Fragment implements View.OnClickListener {
 
     private static final String ARG_PARAM1 = "friend";

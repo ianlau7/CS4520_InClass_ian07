@@ -11,8 +11,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Keep;
 import androidx.appcompat.app.AppCompatActivity;
 
+@Keep
 public class in_class_01 extends AppCompatActivity {
 
     Button calculateBMI;

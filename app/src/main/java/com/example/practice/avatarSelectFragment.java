@@ -2,6 +2,7 @@ package com.example.practice;
 
 import android.os.Bundle;
 
+import androidx.annotation.Keep;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.ImageView;
  * Use the {@link avatarSelectFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+@Keep
 public class avatarSelectFragment extends Fragment {
 
     ImageView avatar1, avatar2, avatar3, avatar4, avatar5, avatar6;

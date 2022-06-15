@@ -3,6 +3,7 @@
 
 package com.example.practice;
 
+import androidx.annotation.Keep;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+@Keep
 public class MainActivity extends AppCompatActivity {
 
     Button inClass01;

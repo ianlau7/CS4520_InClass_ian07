@@ -1,11 +1,13 @@
 package com.example.practice;
 
+import androidx.annotation.Keep;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+@Keep
 public class avatarSelect extends AppCompatActivity {
 
     ImageView avatar1, avatar2, avatar3, avatar4, avatar5, avatar6;

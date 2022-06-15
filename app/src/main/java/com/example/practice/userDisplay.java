@@ -1,11 +1,13 @@
 package com.example.practice;
 
+import androidx.annotation.Keep;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+@Keep
 public class userDisplay extends AppCompatActivity {
 
     ImageView avatar, emoji;

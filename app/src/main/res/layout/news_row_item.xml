@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rootRowView"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:autoSizeTextType="uniform">
 
     <TextView
         android:id="@+id/descriptionDisplayTextView"
-        android:layout_width="384dp"
-        android:layout_height="98dp"
+        android:layout_width="383dp"
+        android:layout_height="112dp"
         android:layout_marginTop="8dp"
         android:textColor="@color/black"
         android:textSize="15dp"

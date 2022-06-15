@@ -1,11 +1,13 @@
 package com.example.practice;
 
+import androidx.annotation.Keep;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+@Keep
 public class in_class_07 extends AppCompatActivity implements AddNoteFragment.IAddButtonActions {
 
     static Button login;

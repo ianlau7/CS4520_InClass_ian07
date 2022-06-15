@@ -2,6 +2,7 @@ package com.example.practice;
 
 import android.os.Bundle;
 
+import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,6 +35,7 @@ import okhttp3.Response;
  * Use the {@link NotesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+@Keep
 public class NotesFragment extends Fragment implements AddNoteFragment.IAddButtonActions {
 
     OkHttpClient client = new OkHttpClient();

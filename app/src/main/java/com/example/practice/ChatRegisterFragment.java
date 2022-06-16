@@ -1,9 +1,11 @@
 package com.example.practice;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,7 +18,9 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
@@ -30,12 +34,17 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
@@ -55,7 +64,9 @@ public class ChatRegisterFragment extends Fragment implements View.OnClickListen
     private String userName, userEmail, userPassword, userRepeatedPassword, userFirstName, userLastName;
     private IregisterFragmentAction mListener;
     private FirebaseFirestore db;
-
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageRef = storage.getReference();
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
 
@@ -126,13 +137,7 @@ public class ChatRegisterFragment extends Fragment implements View.OnClickListen
             @Override
             public void onClick(View v) {
 
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    try {
-                        activityResultLauncher.launch(intent);
-                    } catch (ActivityNotFoundException e) {
-                        Toast.makeText(getActivity(), "No camera available on this device.",
-                                Toast.LENGTH_LONG).show();
-                    }
+                    requestRead();
 
 
                 }
@@ -208,6 +213,41 @@ public class ChatRegisterFragment extends Fragment implements View.OnClickListen
 
     public interface IregisterFragmentAction {
         void registerDone(FirebaseUser mUser);
+    }
+
+    public void requestRead() {
+        if (ContextCompat.checkSelfPermission(this.getActivity(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this.getActivity(),
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+        } else {
+            readFile();
+        }
+    }
+
+    public void readFile() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        try {
+            activityResultLauncher.launch(intent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(getActivity(), "No camera available on this device.",
+                    Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+
+        if (requestCode == MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                readFile();
+            }
+            return;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {

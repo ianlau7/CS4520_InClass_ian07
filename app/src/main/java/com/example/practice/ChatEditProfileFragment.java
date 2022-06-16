@@ -1,11 +1,25 @@
 package com.example.practice;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +39,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.ByteArrayOutputStream;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ChatEditProfileFragment#newInstance} factory method to
@@ -38,6 +54,9 @@ public class ChatEditProfileFragment extends Fragment {
     ImageView profilePicture;
     EditText name, fName, lName;
     Button finish;
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
+    ActivityResultLauncher<Intent> activityResultLauncher;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "auth";
@@ -89,6 +108,9 @@ public class ChatEditProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_chat_edit_profile, container, false);
 
         profilePicture = view.findViewById(R.id.chatEditProfileImageView);
+        if (mUser.getPhotoUrl() != null) {
+            profilePicture.setImageURI(mUser.getPhotoUrl());
+        }
         name = view.findViewById(R.id.chatEditProfileEditUsernameEditText);
         finish = view.findViewById(R.id.chatEditProfileFinishButton);
         fName = view.findViewById(R.id.chatEditProfileEditFirstNameEditText);
@@ -111,11 +133,45 @@ public class ChatEditProfileFragment extends Fragment {
                 });
         name.setHint(mUser.getDisplayName());
 
+        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                            Bundle b = result.getData().getExtras();
+                            Bitmap bitmap = (Bitmap) b.get("data");
+
+                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+
+                                    // change this to camera photo
+                                    .setPhotoUri(getImageUri(getActivity(), bitmap))
+
+                                    .build();
+
+                            mUser.updateProfile(profileUpdates)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+
+                                                getActivity().getSupportFragmentManager().popBackStack();
+                                                getActivity().setTitle("Friends");
+
+                                                Toast.makeText(getActivity(), "Profile picture updated.",
+                                                        Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                    });
+
+                        }
+                    }
+                });
+
         profilePicture.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                // camera stuff
+                requestRead();
             }
         });
 
@@ -124,7 +180,6 @@ public class ChatEditProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String displayName = mUser.getDisplayName();
-                Uri imageURL = mUser.getPhotoUrl();
 
                 if (name.getText().length() > 0) {
                     displayName = name.getText().toString();
@@ -148,9 +203,6 @@ public class ChatEditProfileFragment extends Fragment {
                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                         .setDisplayName(displayName)
 
-                        // change this to camera photo
-                        .setPhotoUri(imageURL)
-
                         .build();
 
                 mUser.updateProfile(profileUpdates)
@@ -171,5 +223,36 @@ public class ChatEditProfileFragment extends Fragment {
         });
 
         return view;
+    }
+
+    public void requestRead() {
+        if (ContextCompat.checkSelfPermission(this.getActivity(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this.getActivity(),
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+        } else {
+            readFile();
+        }
+    }
+
+    public void readFile() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        try {
+            activityResultLauncher.launch(intent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(getActivity(), "No camera available on this device.",
+                    Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes); // Used for compression rate of the Image : 100 means no compression
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "xyz", null);
+        Uri temp = Uri.parse(path);
+        return temp;
     }
 }

@@ -73,7 +73,7 @@ public class in_class_08 extends AppCompatActivity
     public void populateRegisterFragment() {
 //            The user needs to create an account, load the register Fragment....
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.containerMain, ChatRegisterFragment.newInstance(),"registerFragment")
+                .replace(R.id.containerMain, new ChatRegisterFragment(),"registerFragment")
                 .commit();
     }
 

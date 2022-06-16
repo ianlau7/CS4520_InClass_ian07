@@ -60,6 +60,15 @@ import java.util.Map;
 public class ChatRegisterFragment extends Fragment implements View.OnClickListener {
 
     private EditText name, email, password, repeatPassword, firstName, lastName;
+
+    private static final String ARG_PARAM1 = "name";
+    private static final String ARG_PARAM2 = "email";
+    private static final String ARG_PARAM3 = "password";
+    private static final String ARG_PARAM4 = "repeatPassword";
+    private static final String ARG_PARAM5 = "firstName";
+    private static final String ARG_PARAM6 = "lastName";
+    private static final String ARG_PARAM7 = "photoURI";
+
     private Button register, takePhoto;
     private String userName, userEmail, userPassword, userRepeatedPassword, userFirstName, userLastName;
     private IregisterFragmentAction mListener;
@@ -72,15 +81,25 @@ public class ChatRegisterFragment extends Fragment implements View.OnClickListen
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     ActivityResultLauncher<Intent> activityResultLauncher;
+    private String photoURIString;
     Uri photoURI;
 
     public ChatRegisterFragment() {
         // Required empty public constructor
     }
 
-    public static ChatRegisterFragment newInstance() {
+    public static ChatRegisterFragment newInstance(String name, String email, String password,
+                                                   String repeatedPassword, String firstName,
+                                                   String lastName, String photoURI) {
         ChatRegisterFragment fragment = new ChatRegisterFragment();
         Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, name);
+        args.putString(ARG_PARAM2, email);
+        args.putString(ARG_PARAM3, password);
+        args.putString(ARG_PARAM4, repeatedPassword);
+        args.putString(ARG_PARAM5, firstName);
+        args.putString(ARG_PARAM6, lastName);
+        args.putString(ARG_PARAM7, photoURI);
         fragment.setArguments(args);
         return fragment;
     }
@@ -91,6 +110,16 @@ public class ChatRegisterFragment extends Fragment implements View.OnClickListen
         getActivity().setTitle("Register");
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
+
+        if (getArguments() != null) {
+            userName = getArguments().getString(ARG_PARAM1);
+            userEmail = getArguments().getString(ARG_PARAM2);
+            userPassword = getArguments().getString(ARG_PARAM3);
+            userRepeatedPassword = getArguments().getString(ARG_PARAM4);
+            userFirstName = getArguments().getString(ARG_PARAM5);
+            userLastName = getArguments().getString(ARG_PARAM6);
+            photoURI = Uri.parse(getArguments().getString(ARG_PARAM7));
+        }
     }
 
     @Override
@@ -107,6 +136,7 @@ public class ChatRegisterFragment extends Fragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_chat_register, container, false);
 
         name = view.findViewById(R.id.chatRegisterEditTextTextPersonName);
@@ -115,32 +145,66 @@ public class ChatRegisterFragment extends Fragment implements View.OnClickListen
         repeatPassword = view.findViewById(R.id.chatRegisterReEnterEditTextTextPassword);
         firstName = view.findViewById(R.id.editTextFirstName);
         lastName = view.findViewById(R.id.editTextLastName);
+
+        if (userName != null) {
+            name.setText(userName);
+        }
+
+        if (userEmail != null) {
+            email.setText(userEmail);
+        }
+
+        if (userPassword != null) {
+            password.setText(userPassword);
+        }
+
+        if (userRepeatedPassword != null) {
+            repeatPassword.setText(userRepeatedPassword);
+        }
+
+        if (userFirstName != null) {
+            firstName.setText(userFirstName);
+        }
+
+        if (userLastName != null) {
+            lastName.setText(userLastName);
+        }
+
         register = view.findViewById(R.id.chatRegisterButton);
         register.setOnClickListener(this);
         takePhoto = view.findViewById(R.id.chatRegisterTakePhotoButton);
 
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
-            @Override
-            public void onActivityResult(ActivityResult result) {
-                if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
-                    Bundle b = result.getData().getExtras();
-                    Bitmap bitmap = (Bitmap) b.get("data");
-                    photoURI = getImageUri(getActivity(), bitmap);
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                            Bundle b = result.getData().getExtras();
+                            Bitmap bitmap = (Bitmap) b.get("data");
+                            photoURI = getImageUri(getActivity(), bitmap);
 
-                }
-            }
-        });
+                            getActivity().getSupportFragmentManager().beginTransaction()
+                                    .replace(R.id.containerMain, ChatRegisterFragment.newInstance(
+                                            name.getText().toString(),
+                                            email.getText().toString(),
+                                            password.getText().toString(),
+                                            repeatPassword.getText().toString(),
+                                            firstName.getText().toString(),
+                                            lastName.getText().toString(),
+                                            photoURI.toString()),"registerFragment")
+                                    .commit();
+
+                        }
+                    }
+                });
 
         takePhoto.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
-                    requestRead();
-
-
-                }
+                requestRead();
+            }
         });
 
         return view;
@@ -256,5 +320,21 @@ public class ChatRegisterFragment extends Fragment implements View.OnClickListen
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "xyz", null);
         Uri temp = Uri.parse(path);
         return temp;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putParcelable("photoURI", photoURI);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+
+        if (savedInstanceState !=null && savedInstanceState.containsKey("photoURI")) {
+            photoURI = savedInstanceState.getParcelable("photoURI");
+        }
+
+        super.onViewStateRestored(savedInstanceState);
     }
 }

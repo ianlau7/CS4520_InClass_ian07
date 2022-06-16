@@ -24,6 +24,7 @@
         tools:targetApi="31">
         <activity
             android:name=".in_class_08"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false" />
         <activity
             android:name=".in_class_07"

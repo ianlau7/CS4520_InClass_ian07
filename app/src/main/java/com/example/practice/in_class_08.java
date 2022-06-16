@@ -29,7 +29,6 @@ public class in_class_08 extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-        mAuth.signOut();
         currentUser = mAuth.getCurrentUser();
         inChat = false;
         populateScreen();
@@ -87,6 +86,12 @@ public class in_class_08 extends AppCompatActivity
     @Override
     public void exitChat() {
         inChat = false;
+        populateScreen();
+    }
+
+    @Override
+    public void exitGallery() {
+        inChat = true;
         populateScreen();
     }
 }

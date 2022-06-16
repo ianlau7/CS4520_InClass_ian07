@@ -12,4 +12,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="buttonChat">Chat</string>
     <string name="buttonSend">Send</string>
+    <string name="buttonSendImage">image</string>
 </resources>

@@ -1,6 +1,9 @@
 package com.example.practice;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Keep;
@@ -32,6 +35,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,9 +47,10 @@ import java.util.Map;
 public class ChatSpecificFragment extends Fragment implements View.OnClickListener {
 
     private static final String ARG_PARAM1 = "friend";
+    public static final int GET_FROM_GALLERY = 3;
 
     private Friend friend;
-    Button buttonSend;
+    Button buttonSend, buttonSendImage;
     ImageButton buttonBack;
     EditText editTextMessage;
     private FirebaseFirestore db;
@@ -51,7 +58,8 @@ public class ChatSpecificFragment extends Fragment implements View.OnClickListen
     private IspecificFragmentAction mListener;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
-
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageRef = storage.getReference();
     private RecyclerView recyclerView;
     private MessageAdapter messageAdapter;
     private RecyclerView.LayoutManager recyclerViewLayoutManager;
@@ -131,6 +139,7 @@ public class ChatSpecificFragment extends Fragment implements View.OnClickListen
             Map<String, Object> messageData = new HashMap<>();
             messageData.put("sender", username);
             messageData.put("message", message);
+            messageData.put("type", 0);
             db.collection("users").document(email)
                     .collection(friend.getEmail())
                     .document(mMessages.size() + "")
@@ -142,6 +151,47 @@ public class ChatSpecificFragment extends Fragment implements View.OnClickListen
             editTextMessage.setText("");
         } else if(v.getId() == R.id.buttonBack) {
             mListener.exitChat();
+        } else if(v.getId() == R.id.buttonSendImage) {
+            startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
+            Log.d("demo", "onUpload: start");
+            Uri file = data.getData();
+            StorageReference imagesRef = storageRef.child("images/"+file.getLastPathSegment());
+            UploadTask uploadTask = imagesRef.putFile(file);
+            email = mAuth.getCurrentUser().getEmail();
+            username = mAuth.getCurrentUser().getDisplayName();
+
+            // Register observers to listen for when the download is done or if it fails
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    message = "images/"+file.getLastPathSegment();
+                    Map<String, Object> messageData = new HashMap<>();
+                    messageData.put("sender", username);
+                    messageData.put("message", message);
+                    messageData.put("type", 1);
+                    db.collection("users").document(email)
+                            .collection(friend.getEmail())
+                            .document(mMessages.size() + "")
+                            .set(messageData);
+                    db.collection("users").document(friend.getEmail())
+                            .collection(email)
+                            .document(mMessages.size() + "")
+                            .set(messageData);
+                }
+            });
+
         }
     }
 
@@ -152,8 +202,10 @@ public class ChatSpecificFragment extends Fragment implements View.OnClickListen
         View view = inflater.inflate(R.layout.fragment_chat_specific, container, false);
         buttonSend = view.findViewById(R.id.buttonSend);
         buttonBack = view.findViewById(R.id.buttonBack);
+        buttonSendImage = view.findViewById(R.id.buttonSendImage);
         editTextMessage = view.findViewById(R.id.editTextMessage);
         buttonSend.setOnClickListener(this);
+        buttonSendImage.setOnClickListener(this);
         buttonBack.setOnClickListener(this);
 
         //      Setting up RecyclerView........
@@ -192,5 +244,6 @@ public class ChatSpecificFragment extends Fragment implements View.OnClickListen
 
     public interface IspecificFragmentAction {
         void exitChat();
+        void exitGallery();
     }
 }

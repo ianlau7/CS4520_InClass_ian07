@@ -46,7 +46,7 @@ public class ChatMainFragment extends Fragment {
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
-    private String username;
+    private String email;
     private Button editProfile;
 
     public ChatMainFragment() {
@@ -83,7 +83,7 @@ public class ChatMainFragment extends Fragment {
             mAuth = FirebaseAuth.getInstance();
             mUser = mAuth.getCurrentUser();
 
-            this.username = mUser.getDisplayName();
+            this.email = mUser.getEmail();
 
             //            Loading initial data...
             loadData();
@@ -139,7 +139,7 @@ public class ChatMainFragment extends Fragment {
     }
 
     public void updateRecyclerView(ArrayList<Friend> friends){
-        friends.removeIf(f -> f.getUsername().equals(username));
+        friends.removeIf(f -> f.getEmail().equals(email));
         friendsAdapter.setUsers(friends);
         friendsAdapter.notifyDataSetChanged();
     }

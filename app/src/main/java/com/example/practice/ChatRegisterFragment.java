@@ -180,7 +180,7 @@ public class ChatRegisterFragment extends Fragment implements View.OnClickListen
                                     if (photoURI != null) {
                                         newUser.put("profilePicture", photoURI);
                                     }
-                                    db.collection("users").document(userName).set(newUser);
+                                    db.collection("users").document(userEmail).set(newUser);
 
 //                                    Adding name to the FirebaseUser...
                                     UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()

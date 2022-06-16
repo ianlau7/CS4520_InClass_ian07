@@ -47,7 +47,7 @@ public class ChatSpecificFragment extends Fragment implements View.OnClickListen
     ImageButton buttonBack;
     EditText editTextMessage;
     private FirebaseFirestore db;
-    String message, username;
+    String message, email, username;
     private IspecificFragmentAction mListener;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
@@ -83,8 +83,8 @@ public class ChatSpecificFragment extends Fragment implements View.OnClickListen
     private void loadData() {
         ArrayList<Message> messages = new ArrayList<>();
         db.collection("users")
-                .document(mAuth.getCurrentUser().getDisplayName())
-                .collection(friend.getUsername())
+                .document(mAuth.getCurrentUser().getEmail())
+                .collection(friend.getEmail())
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -126,16 +126,17 @@ public class ChatSpecificFragment extends Fragment implements View.OnClickListen
         if (v.getId() == R.id.buttonSend) {
             Log.d("demo", "onClick: ");
             message = editTextMessage.getText().toString().trim();
+            email = mAuth.getCurrentUser().getEmail();
             username = mAuth.getCurrentUser().getDisplayName();
             Map<String, Object> messageData = new HashMap<>();
             messageData.put("sender", username);
             messageData.put("message", message);
-            db.collection("users").document(username)
-                    .collection(friend.getUsername())
+            db.collection("users").document(email)
+                    .collection(friend.getEmail())
                     .document(mMessages.size() + "")
                     .set(messageData);
-            db.collection("users").document(friend.getUsername())
-                    .collection(username)
+            db.collection("users").document(friend.getEmail())
+                    .collection(email)
                     .document(mMessages.size() + "")
                     .set(messageData);
             editTextMessage.setText("");
@@ -167,8 +168,8 @@ public class ChatSpecificFragment extends Fragment implements View.OnClickListen
 
 //        Create a listener for Firebase data change...
         db.collection("users")
-                .document(mAuth.getCurrentUser().getDisplayName())
-                .collection(friend.getUsername())
+                .document(mAuth.getCurrentUser().getEmail())
+                .collection(friend.getEmail())
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {

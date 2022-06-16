@@ -21,6 +21,7 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,6 +116,7 @@ public class ChatRegisterFragment extends Fragment implements View.OnClickListen
                     Bundle b = result.getData().getExtras();
                     Bitmap bitmap = (Bitmap) b.get("data");
                     photoURI = getImageUri(getActivity(), bitmap);
+
                 }
             }
         });
@@ -212,6 +214,7 @@ public class ChatRegisterFragment extends Fragment implements View.OnClickListen
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes); // Used for compression rate of the Image : 100 means no compression
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "xyz", null);
-        return Uri.parse(path);
+        Uri temp = Uri.parse(path);
+        return temp;
     }
 }

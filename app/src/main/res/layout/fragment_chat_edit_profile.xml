@@ -8,16 +8,40 @@
     tools:context=".ChatEditProfileFragment">
 
     <EditText
-        android:id="@+id/chatEditProfileEditNameEditText"
+        android:id="@+id/chatEditProfileEditUsernameEditText"
         android:layout_width="321dp"
         android:layout_height="48dp"
         android:layout_marginTop="50dp"
         android:ems="10"
-        android:hint="Name"
+        android:hint="Username"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chatEditProfileImageView" />
+
+    <EditText
+        android:id="@+id/chatEditProfileEditFirstNameEditText"
+        android:layout_width="321dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:hint="First Name"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chatEditProfileEditUsernameEditText" />
+
+    <EditText
+        android:id="@+id/chatEditProfileEditLastNameEditText"
+        android:layout_width="321dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:hint="Last Name"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chatEditProfileEditFirstNameEditText" />
 
     <ImageView
         android:id="@+id/chatEditProfileImageView"
@@ -33,9 +57,10 @@
         android:id="@+id/chatEditProfileFinishButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="24dp"
         android:text="Finish"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chatEditProfileEditNameEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/chatEditProfileEditLastNameEditText" />
 </androidx.constraintlayout.widget.ConstraintLayout>

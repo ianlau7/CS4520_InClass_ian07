@@ -161,7 +161,6 @@ public class ChatSpecificFragment extends Fragment implements View.OnClickListen
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode==GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
-            Log.d("demo", "onUpload: start");
             Uri file = data.getData();
             StorageReference imagesRef = storageRef.child("images/"+file.getLastPathSegment());
             UploadTask uploadTask = imagesRef.putFile(file);
@@ -244,6 +243,5 @@ public class ChatSpecificFragment extends Fragment implements View.OnClickListen
 
     public interface IspecificFragmentAction {
         void exitChat();
-        void exitGallery();
     }
 }

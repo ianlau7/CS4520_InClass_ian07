@@ -20,6 +20,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,11 +34,10 @@ public class ChatEditProfileFragment extends Fragment {
 
     FirebaseAuth mAuth;
     FirebaseUser mUser;
-
+    private FirebaseFirestore db;
     ImageView profilePicture;
-    EditText name;
+    EditText name, fName, lName;
     Button finish;
-
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "auth";
@@ -74,7 +77,7 @@ public class ChatEditProfileFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
+        db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
     }
@@ -86,9 +89,26 @@ public class ChatEditProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_chat_edit_profile, container, false);
 
         profilePicture = view.findViewById(R.id.chatEditProfileImageView);
-        name = view.findViewById(R.id.chatEditProfileEditNameEditText);
+        name = view.findViewById(R.id.chatEditProfileEditUsernameEditText);
         finish = view.findViewById(R.id.chatEditProfileFinishButton);
-
+        fName = view.findViewById(R.id.chatEditProfileEditFirstNameEditText);
+        lName = view.findViewById(R.id.chatEditProfileEditLastNameEditText);
+        db.collection("users")
+                .document(mUser.getEmail())
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                fName.setHint((String) document.getData().get("firstName"));
+                                lName.setHint((String) document.getData().get("lastName"));
+                            }
+                        } else {
+                            Log.d("demo", "get failed with ", task.getException());
+                        }
+                    }
+                });
         name.setHint(mUser.getDisplayName());
 
         profilePicture.setOnClickListener(new View.OnClickListener() {
@@ -108,6 +128,21 @@ public class ChatEditProfileFragment extends Fragment {
 
                 if (name.getText().length() > 0) {
                     displayName = name.getText().toString();
+                    db.collection("users")
+                            .document(mUser.getEmail())
+                            .update("username", displayName);
+                }
+
+                if (fName.getText().length() > 0) {
+                    db.collection("users")
+                            .document(mUser.getEmail())
+                            .update("firstName", fName.getText().toString());
+                }
+
+                if (lName.getText().length() > 0) {
+                    db.collection("users")
+                            .document(mUser.getEmail())
+                            .update("lastName", lName.getText().toString());
                 }
 
                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()

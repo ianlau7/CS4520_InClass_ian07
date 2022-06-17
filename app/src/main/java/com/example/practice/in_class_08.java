@@ -19,6 +19,8 @@ public class in_class_08 extends AppCompatActivity
     private FirebaseUser currentUser;
     private Friend currentFriend;
     private boolean inChat;
+    private static boolean fromCamera = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,12 +52,15 @@ public class in_class_08 extends AppCompatActivity
                         .commit();
             }
 
-        }else if(!inChat){
+        }else if (!fromCamera) {
+            if (!inChat) {
 //            The user is not logged in, load the login Fragment....
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.containerMain, ChatLoginFragment.newInstance(),"loginFragment")
-                    .commit();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.containerMain, ChatLoginFragment.newInstance(), "loginFragment")
+                        .commit();
+            }
         }
+        fromCamera = false;
     }
 
     @Override
@@ -88,5 +93,9 @@ public class in_class_08 extends AppCompatActivity
     public void exitChat() {
         inChat = false;
         populateScreen();
+    }
+
+    public static void setFromCamera() {
+        fromCamera = true;
     }
 }

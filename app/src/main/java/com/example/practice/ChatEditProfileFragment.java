@@ -148,15 +148,13 @@ public class ChatEditProfileFragment extends Fragment {
 
                                     .build();
 
+                            profilePicture.setImageURI(getImageUri(getActivity(), bitmap));
+
                             mUser.updateProfile(profileUpdates)
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
-
-                                                getActivity().getSupportFragmentManager().popBackStack();
-                                                getActivity().setTitle("Friends");
-
                                                 Toast.makeText(getActivity(), "Profile picture updated.",
                                                         Toast.LENGTH_LONG).show();
                                             }
@@ -171,6 +169,8 @@ public class ChatEditProfileFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
+
+                in_class_08.setFromCamera();
                 requestRead();
             }
         });

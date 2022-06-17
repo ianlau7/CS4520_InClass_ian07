@@ -183,17 +183,6 @@ public class ChatRegisterFragment extends Fragment implements View.OnClickListen
                             Bitmap bitmap = (Bitmap) b.get("data");
                             photoURI = getImageUri(getActivity(), bitmap);
 
-                            getActivity().getSupportFragmentManager().beginTransaction()
-                                    .replace(R.id.containerMain, ChatRegisterFragment.newInstance(
-                                            name.getText().toString(),
-                                            email.getText().toString(),
-                                            password.getText().toString(),
-                                            repeatPassword.getText().toString(),
-                                            firstName.getText().toString(),
-                                            lastName.getText().toString(),
-                                            photoURI.toString()),"registerFragment")
-                                    .commit();
-
                         }
                     }
                 });
@@ -203,6 +192,7 @@ public class ChatRegisterFragment extends Fragment implements View.OnClickListen
             @Override
             public void onClick(View v) {
 
+                in_class_08.setFromCamera();
                 requestRead();
             }
         });
